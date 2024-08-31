@@ -1,14 +1,16 @@
 (function () {
   "use strict";
 
-  let formOrder = document.getElementById('direct-order')
-  let submitOrderBtn = document.getElementById('submit-order')
+  let loginForm = document.getElementById('login')
+  let loginBtn = document.getElementById('login-btn')
+  let parolBtn = document.getElementById('parol-btn')
   let intervalId, currentIntervalInSeconds = 0
 
-  formOrder.addEventListener('submit', async function (event) {
+  loginForm.addEventListener('submit', async function (event) {
     event.preventDefault()
-    submitOrderBtn.setAttribute('disabled', true)
-    submitOrderBtn.innerHTML = `
+    loginBtn.setAttribute('disabled', true)
+    parolBtn.setAttribute('disabled', true)
+    loginBtn.innerHTML = `
      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
     `
     intervalId = setInterval(() => {
@@ -22,7 +24,7 @@
     let formData = new FormData(this);
 
     try {
-      const response = await make_order(this, action, formData)
+      const response = await login(this, action, formData)
 
       if (response) {
         console.log(response)
@@ -32,14 +34,16 @@
     } catch (error) {
       console.log(error)
       displayToastWithData(error, currentIntervalInSeconds)
+
     }
 
     clearInterval(intervalId)
-    submitOrderBtn.setAttribute('disabled', false)
-    submitOrderBtn.innerHTML = `Buyırtpa beriw`
+    loginBtn.setAttribute('disabled', false)
+    parolBtn.setAttribute('disabled', false)
+    loginBtn.innerHTML = `Kiriw`
   })
 
-  async function make_order(form, action, formData) {
+  async function login(form, action, formData) {
     const response = await fetch(action, {
       method: 'POST',
       body: formData,
